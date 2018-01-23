@@ -6,7 +6,7 @@
   "dependencies": {
     "egg": "^2.0.0",
     "egg-mysql": "^3.0.0",
-    "egg-scripts": "^2.1.0",
+    "egg-scripts": "^2.5.0",
     "request": "^2.83.0"
   },
   "devDependencies": {
