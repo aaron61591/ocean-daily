@@ -4,19 +4,36 @@ const Controller = require('egg').Controller;
 
 class DailyController extends Controller {
 
+  async __getUser(param) {
+    const { loginCode, rawData, signature } = param;
+    const user = await this.ctx.service.user.get(loginCode, rawData, signature);
+    return user;
+  }
+
   async create() {
+    const user = await this.__getUser(this.ctx.request.body);
+    if (!user) {
+      this.ctx.body = {
+        success: false,
+        msg: 'invalid user',
+      };
+      return;
+    }
     const { location, content } = this.ctx.request.body;
-    const result = await this.ctx.service.daily.create(location, content);
+    const result = await this.ctx.service.daily.create(user.id, location, content);
     this.ctx.body = {
       success: result !== 0,
     };
   }
 
   async query() {
-    const { offset, limit, loginCode, rawData, signature } = this.ctx.query;
-    console.log('loginCode, rawData, signature', loginCode, rawData, signature);
-    const user = await this.ctx.service.user.get(loginCode, rawData, signature);
-    const dailyList = await this.ctx.service.daily.query(offset, limit);
+    const { offset, limit } = this.ctx.query;
+    const user = await this.__getUser(this.ctx.query);
+    if (!user) {
+      this.ctx.body = [];
+      return;
+    }
+    const dailyList = await this.ctx.service.daily.query(user.id, offset, limit);
     this.ctx.body = dailyList;
   }
 }

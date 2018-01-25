@@ -37,6 +37,7 @@ class LocationService extends Service {
       const { nation, province, city, district, street, street_number } = addressComponent;
       const result = await this.app.mysql.insert(TABLE_NAME.LOCATION, {
         nation, province, city, district, street, streetNumber: street_number,
+        createTime: new Date(),
       });
       return result.insertId;
     } catch (e) {

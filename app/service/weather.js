@@ -49,7 +49,7 @@ class WeatherService extends Service {
 
   async update(row) {
     try {
-      const result = await this.app.mysql.update(TABLE_NAME.LOCATION, row);
+      const result = await this.app.mysql.update(TABLE_NAME.WEATHER, row);
       return result.affectedRows === 1;
     } catch (e) {
       return false;
