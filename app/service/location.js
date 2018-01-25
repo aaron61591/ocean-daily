@@ -3,7 +3,6 @@
 const Service = require('egg').Service;
 const request = require('request');
 const MAP_QQ_API = 'http://apis.map.qq.com/ws/geocoder/v1/';
-const QQ_DEV_KEY = 'MW6BZ-UCXKO-ZGIWA-SON42-IWT2K-FZF2Y';
 const { TABLE_NAME } = require('../contants');
 
 class LocationService extends Service {
@@ -11,7 +10,7 @@ class LocationService extends Service {
   getAddressComponentForQQMap(location) {
     return new Promise((resolve, reject) => {
       request.get(
-        `${MAP_QQ_API}?location=${location}&key=${QQ_DEV_KEY}`,
+        `${MAP_QQ_API}?location=${location}&key=${this.app.config.QQ_DEV_KEY}`,
         (err, httpResponse, body) => {
           if (err) reject();
           try {

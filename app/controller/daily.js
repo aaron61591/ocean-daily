@@ -13,7 +13,9 @@ class DailyController extends Controller {
   }
 
   async query() {
-    const { offset, limit } = this.ctx.query;
+    const { offset, limit, loginCode, rawData, signature } = this.ctx.query;
+    console.log('loginCode, rawData, signature', loginCode, rawData, signature);
+    const user = await this.ctx.service.user.get(loginCode, rawData, signature);
     const dailyList = await this.ctx.service.daily.query(offset, limit);
     this.ctx.body = dailyList;
   }

@@ -3,7 +3,6 @@
 const Service = require('egg').Service;
 const request = require('request');
 const SENIVERSE_WEB_API = 'https://api.seniverse.com/v3/weather/now.json';
-const SENIVERSE_DEV_KEY = 'gprtiiaqy9f41gmi';
 const { TABLE_NAME } = require('../contants');
 
 class WeatherService extends Service {
@@ -11,7 +10,7 @@ class WeatherService extends Service {
   __getWeatherFromSeniverse(city) {
     return new Promise((resolve, reject) => {
       request.get(
-        `${SENIVERSE_WEB_API}?location=${encodeURIComponent(city)}&key=${SENIVERSE_DEV_KEY}`,
+        `${SENIVERSE_WEB_API}?location=${encodeURIComponent(city)}&key=${this.app.config.SENIVERSE_DEV_KEY}`,
         (err, httpResponse, body) => {
           if (err) reject();
           try {
